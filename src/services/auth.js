@@ -1,15 +1,16 @@
 import { sleep } from "../utils/sleep";
 
 export const doSignin = async (users, email, password) => {
-	const isAuthenticated = users.find((user) => {
+	const user = users.find((user) => {
 		return user.email === email && user.password === password;
 	});
 
 	await sleep(1000);
-	if (!isAuthenticated) {
+	if (!user) {
 		return Promise.reject("Email y/o contraseña incorrectos");
 	}
 	//si llega hasta acá signifíca que la promesa se resolvió bien
+	return user;
 };
 
 export const doSignup = async (users, setUsers, user) => {

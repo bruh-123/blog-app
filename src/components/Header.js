@@ -1,8 +1,15 @@
+import React from "react";
+import { UserContext } from "../context/user";
 import { Flex, Avatar, Button, Text } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 
 export const Header = () => {
 	const history = useHistory();
+	const { user } = React.useContext(UserContext);
+	console.log("userContextData", user);
+
+	const name = user && `${user.firstName} ${user.lastName}`;
+
 	const handleNavigateHome = () => {
 		history.push("/");
 	};
@@ -31,7 +38,7 @@ export const Header = () => {
 					variant="ghost"
 					onClick={handleNavigateProfile}
 				>
-					<Text mr="1rem">Profile</Text>
+					<Text mr="1rem">{name || "Profile"}</Text>
 					<Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
 				</Button>
 			</Flex>

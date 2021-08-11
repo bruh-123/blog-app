@@ -2,6 +2,7 @@ import { Flex, Button, Input, Heading, Text } from "@chakra-ui/react";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { UserContext } from "../context/user";
 
 export function SignIn() {
 	const [email, setEmail] = React.useState("");
@@ -9,6 +10,7 @@ export function SignIn() {
 	const [error, setError] = React.useState(null);
 	const [loading, setLoading] = React.useState(false);
 
+	const { setUser } = React.useContext(UserContext);
 	const history = useHistory();
 	const { signin } = useAuth();
 
@@ -18,9 +20,10 @@ export function SignIn() {
 		setLoading(true);
 
 		signin(email, password)
-			.then(() => {
+			.then((user) => {
 				setError(null);
 				setLoading(false);
+				setUser(user);
 				history.push("/");
 			})
 			.catch((e) => {
@@ -76,7 +79,9 @@ export function SignIn() {
 					mt="1rem"
 					colorScheme="teal"
 					variant="link"
-					onClick={()=>{history.push("/signup")}}
+					onClick={() => {
+						history.push("/signup");
+					}}
 				>
 					Are you new here? Signup!
 				</Button>
